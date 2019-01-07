@@ -1,3 +1,4 @@
+// Copyright 2019 Shehriyar Qureshi
 package com.ufone.api.discovery;
 
 import com.google.gson.annotations.SerializedName;
@@ -26,6 +27,12 @@ public class DiscoveryConfiguration {
         private String[] responseTypesSupported = { "code" };
         @SerializedName("scopes_supported")
         private String[] scopesSupported = { "openid" };
+        @SerializedName("subject_types_supported")
+        private String[] subject_types_supported = { "public" };
+        @SerializedName("id_token_signing_alg_values_supported")
+        private String[] tokenSigningAlgorithm = { "RS256" };
+        @SerializedName("acr_values_supported")
+        private String[] acrValuesSupported = { "2" };
 
         private DiscoveryConfiguration() {
         }
