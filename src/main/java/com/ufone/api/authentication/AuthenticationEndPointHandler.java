@@ -1,3 +1,4 @@
+// Copyright 2019 Shehriyar Qureshi
 package com.ufone.api.authentication;
 
 import javax.ws.rs.GET;
@@ -12,6 +13,9 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 
 import com.ufone.api.util.ErrorResponse;
+import com.ufone.api.authentication.ClientValidation;
+
+import com.ufone.api.authentication.AuthenticationMethods;
 
 @Path("/")
 public class AuthenticationEndPointHandler {
@@ -24,10 +28,23 @@ public class AuthenticationEndPointHandler {
 
                 if (response_type != null && client_id != null && redirect_uri != null && scope != null) {
                         try {
-                                // TODO: request & client validation logic?
-                                Gson json_test = new Gson();
-                                String test = json_test.toJson("Initiate Authentication");
-                                return Response.status(302).entity(test).build();
+                                ClientValidation clientValidation = new ClientValidation(client_id, redirect_uri);
+                                // if client is validated, only then initiate authentication
+                                if (clientValidation.isClientValid() == true) {
+                                        Gson json_test = new Gson();
+                                        AuthenticationMethods authenticationMethod = new AuthenticationMethods();
+                                        boolean authenticationStatus = authenticationMethod.USSDAuthentication();
+                                        if (authenticationStatus == true) {
+                                                // generate and return code
+                                                return Response.status(302).entity("code=some_code").build();
+                                        } else if (authenticationStatus == false) {
+                                                return Response.status(302).entity("Auth Failed").build();
+                                        } else {
+                                                return Response.status(400).entity("Server Error").build();
+                                        }
+                                } else {
+                                        return Response.status(302).entity("Wrong").build();
+                                }
                         } catch (Exception serverError) {
                                 Gson jsonResponse = new Gson();
                                 ErrorResponse errorResponse = new ErrorResponse("server Error",
@@ -35,8 +52,8 @@ public class AuthenticationEndPointHandler {
                                 String responseBody = jsonResponse.toJson(errorResponse);
                                 return Response.status(400).entity(responseBody).build();
                         }
-                        // TODO: create a function/class to find the error and create appropriate
-                        // response
+                        // TODO: these are temporary, the errors should be raised during validation
+                        // of the request
                 } else if (response_type == null) {
                         Gson jsonResponse = new Gson();
                         ErrorResponse errorResponse = new ErrorResponse("invalid_request", "response_type is invalid");
