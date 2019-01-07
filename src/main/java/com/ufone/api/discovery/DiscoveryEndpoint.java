@@ -1,3 +1,4 @@
+// Copyright 2019 Shehriyar Qureshi
 package com.ufone.api.discovery;
 
 import javax.ws.rs.GET;
@@ -10,6 +11,10 @@ import com.ufone.api.util.ErrorResponse;
 
 import com.google.gson.Gson;
 
+import java.io.File;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 @Path("/.well-known")
 public class DiscoveryEndpoint {
         @GET
@@ -17,7 +22,11 @@ public class DiscoveryEndpoint {
         @Produces(MediaType.APPLICATION_JSON)
         public Response ReturnParam() {
                 try {
-                        return Response.status(302).entity(DiscoveryConfiguration.getResponseAsString()).build();
+                        return Response.status(200).entity(DiscoveryConfiguration.getResponseAsString())
+                                        .header("Cache-Control", "public, max-age=3600")
+                                        .header("X-Content-Type-Options", "nosniff")
+                                        .header("X-XSS-Protection", "1; mode=block").header("Accept-Ranges", "bytes")
+                                        .build();
                 } catch (Exception e) {
                         Gson jsonResponse = new Gson();
                         ErrorResponse errorResponse = new ErrorResponse();
