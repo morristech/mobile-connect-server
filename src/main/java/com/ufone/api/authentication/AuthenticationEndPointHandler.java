@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
+import java.lang.Thread;
 
 import com.google.gson.Gson;
 
@@ -16,6 +17,7 @@ import com.ufone.api.util.ErrorResponse;
 import com.ufone.api.authentication.ClientValidation;
 
 import com.ufone.api.authentication.AuthenticationMethods;
+import com.ufone.api.authentication.UserAuthenticationHandler;
 
 @Path("/")
 public class AuthenticationEndPointHandler {
@@ -24,14 +26,18 @@ public class AuthenticationEndPointHandler {
         @Produces(MediaType.APPLICATION_JSON)
         public Response ReturnParam(@QueryParam("response_type") String response_type,
                         @QueryParam("scope") String scope, @QueryParam("client_id") String client_id,
-                        @QueryParam("redirect_uri") String redirect_uri, @QueryParam("state") String state) {
+                        @QueryParam("redirect_uri") String redirect_uri, @QueryParam("state") String state,
+                        @QueryParam("verson") String mc_version, @QueryParam("nonce") String nonce) {
 
                 if (response_type != null && client_id != null && redirect_uri != null && scope != null) {
                         try {
                                 ClientValidation clientValidation = new ClientValidation(client_id, redirect_uri);
                                 // if client is validated, only then initiate authentication
                                 if (clientValidation.isClientValid() == true) {
-                                        Gson json_test = new Gson();
+                                        // display wait screen & start authentication stuff
+                                        // need to work this out
+                                        UserAuthenticationHandler userAuthenticationHandler = new UserAuthenticationHandler();
+                                        userAuthenticationHandler.redirectToWaitScreen();
                                         AuthenticationMethods authenticationMethod = new AuthenticationMethods();
                                         boolean authenticationStatus = authenticationMethod.USSDAuthentication();
                                         if (authenticationStatus == true) {
