@@ -10,7 +10,7 @@ import java.util.UUID;
  *
  * The pcr is in the UUID4 format.
  */
-public class pcrGeneration {
+public class PCRGeneration {
 
         public String generatePCR() {
                 UUID uuid = UUID.randomUUID();
