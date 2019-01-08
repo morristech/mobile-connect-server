@@ -10,29 +10,30 @@ public class DiscoveryConfiguration {
 
         // NOTE: Not reading from file or something as that's gonna slow down
         // performance plus these fields won't be changed often so hardcoding them here
-        // shouldn't be a problem, i guess XD
+        // shouldn't be a problem and they will be compiled to bytecode so they can't be
+        // changed by someone which might have malicious intent.
         @SerializedName("issuer")
-        private String issuer = "https://api.ufone.com";
+        private final String issuer = "https://api.ufone.com";
         @SerializedName("authorization_endpoint")
-        private String authorizationEndpoint = "https://api.ufone.com/oidc/authorize";
+        private final String authorizationEndpoint = "https://api.ufone.com/oidc/authorize";
         @SerializedName("token_endpoint")
-        private String tokenEndpoint = "https://api.ufone.com/token";
+        private final String tokenEndpoint = "https://api.ufone.com/token";
         @SerializedName("userinfo_endpoint")
-        private String userinfoEndpoint = "https://api.ufone.com/oidc/userinfo";
+        private final String userinfoEndpoint = "https://api.ufone.com/oidc/userinfo";
         @SerializedName("revocation_endpoint")
-        private String revocationEndpoint = "https://api.ufone.com/oidc/revoke";
+        private final String revocationEndpoint = "https://api.ufone.com/oidc/revoke";
         @SerializedName("jwks_uri")
-        private String jwksURI = "https://api.ufone.com/oidc/certs";
+        private final String jwksURI = "https://api.ufone.com/oidc/certs";
         @SerializedName("response_types_supported")
-        private String[] responseTypesSupported = { "code" };
+        private final String[] responseTypesSupported = { "code" };
         @SerializedName("scopes_supported")
-        private String[] scopesSupported = { "openid" };
+        private final String[] scopesSupported = { "openid" };
         @SerializedName("subject_types_supported")
-        private String[] subject_types_supported = { "public" };
+        private final String[] subject_types_supported = { "public" };
         @SerializedName("id_token_signing_alg_values_supported")
-        private String[] tokenSigningAlgorithm = { "RS256" };
+        private final String[] tokenSigningAlgorithm = { "RS256" };
         @SerializedName("acr_values_supported")
-        private String[] acrValuesSupported = { "2" };
+        private final String[] acrValuesSupported = { "2" };
 
         private DiscoveryConfiguration() {
         }
