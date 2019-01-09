@@ -2,16 +2,21 @@ package com.ufone.api.validation;
 
 import com.ufone.api.request.Request;
 
+import com.ufone.api.exceptions.MissingClientIDException;
+import com.ufone.api.exceptions.MissingScopeException;
+
 public interface IRequestValidation {
-        public boolean validateRequest(Request request);
+        public boolean validateRequest(Request request)
+            throws MissingClientIDException, MissingScopeException;
 
-        public boolean mandatoryParametersNull(Request request);
+        public boolean mandatoryParametersNull(Request request)
+            throws MissingClientIDException, MissingScopeException;
 
-        public boolean areMandatoryParametersValid();
+        public boolean areMandatoryParametersValid(Request request);
 
         public boolean areOptionalParametersValid();
 
-        public boolean validateClientID(String redirectURI);
+        public boolean validateClientID(String clientID);
 
         public boolean validateRedirectURI(String redirectURI);
 

@@ -2,50 +2,71 @@ package com.ufone.api.validation;
 
 import com.ufone.api.request.Request;
 import com.ufone.api.exceptions.MissingClientIDException;
+import com.ufone.api.errors.MissingScope;
+import com.ufone.api.exceptions.MissingScopeException;
 
 public class RequestValidation implements IRequestValidation {
-        public boolean validateRequest(Request request) {
-                return false;
+        public boolean validateRequest(Request request)
+            throws MissingClientIDException, MissingScopeException {
+                // empty check
+                mandatoryParametersNull(request);
+                // validity check
+                areMandatoryParametersValid(request);
+                return true;
         }
 
-        public boolean mandatoryParametersNull(Request request) {
-                return false;
+        public boolean mandatoryParametersNull(Request request)
+            throws MissingClientIDException, MissingScopeException {
+                if (request.getClientID() == null) {
+                        throw new MissingClientIDException();
+                } else if (request.getScope() == null) {
+                        throw new MissingScopeException();
+                } else {
+                        return false;
+                }
         }
 
-        public boolean areMandatoryParametersValid() {
-                return false;
+        public boolean areMandatoryParametersValid(Request request) {
+                validateClientID(request.getClientID());
+                validateRedirectURI(request.getRedirectURI());
+                validateResponseType(request.getResponseType());
+                validateScope(request.getScope());
+                validateVersion(request.getVersion());
+                validateState(request.getState());
+                validateNonce(request.getNonce());
+                return true;
         }
 
         public boolean areOptionalParametersValid() {
                 return false;
         }
 
-        public boolean validateClientID(String redirectURI) {
-                return false;
+        public boolean validateClientID(String clientID) {
+                return true;
         }
 
         public boolean validateRedirectURI(String redirectURI) {
-                return false;
+                return true;
         }
 
         public boolean validateResponseType(String responseType) {
-                return false;
+                return true;
         }
 
         public boolean validateScope(String scope) {
-                return false;
+                return true;
         }
 
         public boolean validateVersion(String version) {
-                return false;
+                return true;
         }
 
         public boolean validateState(String state) {
-                return false;
+                return true;
         }
 
         public boolean validateNonce(String nonce) {
-                return false;
+                return true;
         }
 
         public boolean validateDisplay(String display) {
