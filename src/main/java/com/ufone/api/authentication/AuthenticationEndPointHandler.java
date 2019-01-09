@@ -5,9 +5,11 @@ import com.google.gson.Gson;
 import com.ufone.api.authentication.AuthenticationMethods;
 import com.ufone.api.authentication.UserAuthenticationHandler;
 import com.ufone.api.errors.MissingClientID;
+import com.ufone.api.errors.MissingScope;
 import com.ufone.api.request.Request;
 import com.ufone.api.validation.RequestValidation;
 import com.ufone.api.exceptions.MissingClientIDException;
+import com.ufone.api.exceptions.MissingScopeException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -29,8 +31,8 @@ public class AuthenticationEndPointHandler {
         @Path("authorize")
         @Produces(MediaType.APPLICATION_FORM_URLENCODED)
         public Response ReturnParam(@QueryParam("client_id") String clientID,
-            @QueryParam("redirectURI") String redirectURI,
-            @QueryParam("responseType") String responseType, @QueryParam("scope") String scope,
+            @QueryParam("redirect_uri") String redirectURI,
+            @QueryParam("response_type") String responseType, @QueryParam("scope") String scope,
             @QueryParam("version") String version, @QueryParam("state") String state,
             @QueryParam("nonce") String nonce, @QueryParam("display") String display,
             @QueryParam("prompt") String prompt, @QueryParam("max_age") String maxAge,
@@ -43,6 +45,9 @@ public class AuthenticationEndPointHandler {
             @QueryParam("response_mode") String responseMode,
             @QueryParam("correlation_id") String correlationID, @QueryParam("dtbs") String dtbs)
             throws UnsupportedEncodingException, MissingClientIDException {
+                // These are error response variables
+                final String baseResponse;
+                final String baseResponseWithState;
                 // Create a request object
                 Request request =
                     new Request(clientID, redirectURI, responseType, scope, version, state, nonce)
@@ -56,16 +61,20 @@ public class AuthenticationEndPointHandler {
                         .acrValues(acrValues)
                         .responseMode(responseMode)
                         .correlationID(correlationID)
-                        .dtbs(dtbs);
+                        .dtbs(dtbs)
+                        .build();
+                // Call Request Validator to validate request and throw appropriate exception if
 
-                // try {
-                //         // RequestValidation requestValidation =
-                //         //     new RequestValidation.validateRequest(request);
-                // } catch (MissingClientIDException missingClientID) {
-                //         MissingClientID missingClientIDResponse = new MissingClientID();
-                //         missingClientIDResponse.buildAndReturnResponse(
-                //             request.clientID, request.state, request.correlationID);
-                // }
-                return Response.status(200).entity(request.getAcrValues()).build();
+                try {
+                        RequestValidation requestValidation = new RequestValidation();
+                        requestValidation.mandatoryParametersNull(request);
+                        return Response.status(200).entity("Normal").build();
+                } catch (MissingClientIDException missingClientID) {
+                        MissingClientID errorResponse = new MissingClientID();
+                        return errorResponse.buildAndReturnResponse(request);
+                } catch (MissingScopeException missingScope) {
+                        MissingScope errorResponse = new MissingScope();
+                        return errorResponse.buildAndReturnResponse(request);
+                }
         }
 }
