@@ -1,6 +1,13 @@
 // Copyright 2019 Shehriyar Qureshi
 package com.ufone.api.authentication;
 
+import com.google.gson.Gson;
+import com.ufone.api.authentication.AuthenticationMethods;
+import com.ufone.api.authentication.UserAuthenticationHandler;
+import com.ufone.api.errors.MissingClientID;
+import com.ufone.api.request.Request;
+import com.ufone.api.validation.RequestValidation;
+import com.ufone.api.exceptions.MissingClientIDException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -10,82 +17,55 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 import java.net.URLEncoder;
+import java.io.UnsupportedEncodingException;
 
-import com.google.gson.Gson;
-
-import com.ufone.api.util.ErrorResponse;
-import com.ufone.api.authentication.ClientValidation;
-
-import com.ufone.api.authentication.AuthenticationMethods;
-import com.ufone.api.authentication.UserAuthenticationHandler;
-
+/*
+ * This is the authentication endpoint handler. This class is responsible for calling all
+ * relevant classes and returning an appropriate response raised by the called classes.
+ */
 @Path("/")
 public class AuthenticationEndPointHandler {
         @GET
         @Path("authorize")
         @Produces(MediaType.APPLICATION_FORM_URLENCODED)
-        public Response ReturnParam(@QueryParam("response_type") String response_type,
-                        @QueryParam("scope") String scope, @QueryParam("client_id") String client_id,
-                        @QueryParam("redirect_uri") String redirect_uri, @QueryParam("state") String state,
-                        @QueryParam("verson") String mc_version, @QueryParam("nonce") String nonce) {
+        public Response ReturnParam(@QueryParam("client_id") String clientID,
+            @QueryParam("redirectURI") String redirectURI,
+            @QueryParam("responseType") String responseType, @QueryParam("scope") String scope,
+            @QueryParam("version") String version, @QueryParam("state") String state,
+            @QueryParam("nonce") String nonce, @QueryParam("display") String display,
+            @QueryParam("prompt") String prompt, @QueryParam("max_age") String maxAge,
+            @QueryParam("ui_locales") String uiLocales,
+            @QueryParam("claims_locales") String claimsLocales,
+            @QueryParam("id_token_hint") String idTokenHint,
+            @QueryParam("login_hint") String loginHint,
+            @QueryParam("login_hint_token") String loginHintToken,
+            @QueryParam("acr_values") String acrValues,
+            @QueryParam("response_mode") String responseMode,
+            @QueryParam("correlation_id") String correlationID, @QueryParam("dtbs") String dtbs)
+            throws UnsupportedEncodingException, MissingClientIDException {
+                // Create a request object
+                Request request =
+                    new Request(clientID, redirectURI, responseType, scope, version, state, nonce)
+                        .display(display)
+                        .prompt(prompt)
+                        .maxAge(maxAge)
+                        .uiLocales(uiLocales)
+                        .claimsLocales(claimsLocales)
+                        .idTokenHint(idTokenHint)
+                        .loginHintToken(loginHintToken)
+                        .acrValues(acrValues)
+                        .responseMode(responseMode)
+                        .correlationID(correlationID)
+                        .dtbs(dtbs);
 
-                if (response_type != null && client_id != null && redirect_uri != null && scope != null
-                                && state != null) {
-                        try {
-                                ClientValidation clientValidation = new ClientValidation(client_id, redirect_uri);
-                                // if client is validated, only then initiate authentication
-                                if (clientValidation.isClientValid() == true) {
-                                        // display wait screen & start authentication stuff
-                                        // need to work this out
-                                        UserAuthenticationHandler userAuthenticationHandler = new UserAuthenticationHandler();
-                                        userAuthenticationHandler.redirectToWaitScreen();
-                                        AuthenticationMethods authenticationMethod = new AuthenticationMethods();
-                                        boolean authenticationStatus = authenticationMethod.USSDAuthentication();
-                                        if (authenticationStatus == true) {
-                                                // generate and return code
-                                                final String redirect_code = redirect_uri + "?" + "code=" + "abc123"
-                                                                + "&" + "state=" + state;
-                                                return Response.status(302).header("Location", redirect_code).build();
-                                        } else if (authenticationStatus == false) {
-                                                return Response.status(302).entity("Auth Failed").build();
-                                        } else {
-                                                return Response.status(400).entity("Server Error").build();
-                                        }
-                                } else {
-                                        return Response.status(302).entity("Wrong").build();
-                                }
-                        } catch (Exception serverError) {
-                                Gson jsonResponse = new Gson();
-                                ErrorResponse errorResponse = new ErrorResponse("server Error",
-                                                "something went wrong while processing request");
-                                String responseBody = jsonResponse.toJson(errorResponse);
-                                return Response.status(400).entity(responseBody).build();
-                        }
-                        // TODO: these are temporary, the errors should be raised during validation
-                        // of the request
-                } else if (redirect_uri == null) {
-                        final String errorTitle = "invalid_request";
-                        final String errorDesc = "redirect_uri is invalid";
-                        final String encodedDesc = URLEncoder.encode(errorDesc);
-                        final String errorParam = encodedDesc;
-                        return Response.status(302).header("Location", redirect_uri + errorParam).build();
-                } else if (scope == null) {
-                        Gson jsonResponse = new Gson();
-                        ErrorResponse errorResponse = new ErrorResponse("invalid_request", "scope is invalid");
-                        String responseBody = jsonResponse.toJson(errorResponse);
-                        return Response.status(302).entity(responseBody).build();
-                } else if (client_id == null) {
-                        Gson jsonResponse = new Gson();
-                        ErrorResponse errorResponse = new ErrorResponse("invalid_request", "client_id is invalid");
-                        String responseBody = jsonResponse.toJson(errorResponse);
-                        return Response.status(302).entity(responseBody).build();
-                } else if (redirect_uri == null) {
-                        Gson jsonResponse = new Gson();
-                        ErrorResponse errorResponse = new ErrorResponse("invalid_request", "redirect_uri is invalid");
-                        String responseBody = jsonResponse.toJson(errorResponse);
-                        return Response.status(302).entity(responseBody).build();
-                } else {
-                        return Response.status(400).build();
-                }
+                // try {
+                //         // RequestValidation requestValidation =
+                //         //     new RequestValidation.validateRequest(request);
+                // } catch (MissingClientIDException missingClientID) {
+                //         MissingClientID missingClientIDResponse = new MissingClientID();
+                //         missingClientIDResponse.buildAndReturnResponse(
+                //             request.clientID, request.state, request.correlationID);
+                // }
+                return Response.status(200).entity(request.getAcrValues()).build();
         }
 }
