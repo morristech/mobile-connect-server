@@ -15,7 +15,7 @@ public class BaseErrorResponse {
          * @author Shehriyar Qureshi
          */
 
-        private String error = "abcd";
+        private String error;
         private String errorDescription;
 
         /*
