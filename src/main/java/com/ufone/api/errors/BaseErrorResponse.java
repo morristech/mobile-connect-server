@@ -5,6 +5,8 @@ import java.net.URLEncoder;
 
 import java.io.UnsupportedEncodingException;
 
+import com.ufone.api.request.Request;
+
 public class BaseErrorResponse {
         /*
          * This class serves as a base class for creating error responses. You should
@@ -82,15 +84,15 @@ public class BaseErrorResponse {
         }
 
         // public String addCorrelationIDQueryParam(
-        //     String baseErrorResponse, String correlationIDParam) {
-        //         if (correlationIDParam != null) {
-        //                 correlationIDParam =
-        //                     String.format("&%s=%s", "correlation_id", correlationIDParam);
-        //                 String responseURL = baseErrorResponse + correlationIDParam;
-        //                 return responseURL;
-        //         } else {
-        //                 return baseErrorResponse;
-        //         }
+        // String baseErrorResponse, String correlationIDParam) {
+        // if (correlationIDParam != null) {
+        // correlationIDParam =
+        // String.format("&%s=%s", "correlation_id", correlationIDParam);
+        // String responseURL = baseErrorResponse + correlationIDParam;
+        // return responseURL;
+        // } else {
+        // return baseErrorResponse;
+        // }
         // }
 
         /*

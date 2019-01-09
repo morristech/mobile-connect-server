@@ -1,11 +1,14 @@
 package com.ufone.api.errors;
 
-import javax.ws.rs.core.Response;
 import com.ufone.api.errors.BaseErrorResponse;
+import com.ufone.api.request.Request;
+import java.io.UnsupportedEncodingException;
+import javax.ws.rs.core.Response;
 
 public class MissingScope extends BaseErrorResponse {
-        private String error = "invalid_scope";
-        private String errorDescription = "MANDATORY parameter scope is missing";
+        private final String error = "invalid_scope";
+        private final String errorDescription = "MANDATORY parameter scope is missing";
+        private String baseResponse;
 
         @Override
         public String getErrorTitle() {
@@ -15,5 +18,13 @@ public class MissingScope extends BaseErrorResponse {
         @Override
         public String getErrorDescription() {
                 return this.errorDescription;
+        }
+
+        public Response buildAndReturnResponse(Request request)
+            throws UnsupportedEncodingException {
+                MissingScope errorResponse = new MissingScope();
+                baseResponse = errorResponse.buildBaseErrorResponse(request.getRedirectURI());
+                baseResponse = errorResponse.addStateQueryParam(baseResponse, request.getState());
+                return errorResponse.returnResponse(baseResponse);
         }
 }
