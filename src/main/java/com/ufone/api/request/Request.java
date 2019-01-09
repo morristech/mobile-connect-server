@@ -29,17 +29,6 @@ public class Request {
         private String correlationID;
         private String dtbs;
 
-        public Request(String clientID, String redirectURI, String responseType, String scope,
-            String version, String state, String nonce) {
-                this.clientID = clientID;
-                this.redirectURI = redirectURI;
-                this.responseType = responseType;
-                this.scope = scope;
-                this.version = version;
-                this.state = state;
-                this.nonce = nonce;
-        }
-
         // Getters
         public String getClientID() {
                 return this.clientID;
@@ -178,17 +167,19 @@ public class Request {
                 return this;
         }
 
+        public Request(String clientID, String redirectURI, String responseType, String scope,
+            String version, String state, String nonce) {
+                this.clientID = clientID;
+                this.redirectURI = redirectURI;
+                this.responseType = responseType;
+                this.scope = scope;
+                this.version = version;
+                this.state = state;
+                this.nonce = nonce;
+        }
+
         public Request build() {
                 return new Request(
                     clientID, redirectURI, responseType, scope, version, state, nonce);
-                // Request request = new request();
-                // request.clientID = this.clientID;
-                // request.redirectURI = this.redirectURI;
-                // request.responseType = this.responseType;
-                // request.scope = this.scope;
-                // request.version = this.version;
-                // request.state = this.state;
-                // request.nonce = this.nonce;
-                // return request;
         }
 }
