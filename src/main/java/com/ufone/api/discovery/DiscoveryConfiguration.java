@@ -12,8 +12,7 @@ public class DiscoveryConfiguration {
         // performance plus these fields won't be changed often so hardcoding them here
         // shouldn't be a problem and they will be compiled to bytecode so they can't be
         // changed by someone which might have malicious intent.
-        @SerializedName("issuer")
-        private final String issuer = "https://api.ufone.com";
+        @SerializedName("issuer") private final String issuer = "https://api.ufone.com";
         @SerializedName("authorization_endpoint")
         private final String authorizationEndpoint = "https://api.ufone.com/oidc/authorize";
         @SerializedName("token_endpoint")
@@ -25,18 +24,15 @@ public class DiscoveryConfiguration {
         @SerializedName("jwks_uri")
         private final String jwksURI = "https://api.ufone.com/oidc/certs";
         @SerializedName("response_types_supported")
-        private final String[] responseTypesSupported = { "code" };
-        @SerializedName("scopes_supported")
-        private final String[] scopesSupported = { "openid" };
+        private final String[] responseTypesSupported = {"code"};
+        @SerializedName("scopes_supported") private final String[] scopesSupported = {"openid"};
         @SerializedName("subject_types_supported")
-        private final String[] subject_types_supported = { "public" };
+        private final String[] subject_types_supported = {"public"};
         @SerializedName("id_token_signing_alg_values_supported")
-        private final String[] tokenSigningAlgorithm = { "RS256" };
-        @SerializedName("acr_values_supported")
-        private final String[] acrValuesSupported = { "2" };
+        private final String[] tokenSigningAlgorithm = {"RS256"};
+        @SerializedName("acr_values_supported") private final String[] acrValuesSupported = {"2"};
 
-        private DiscoveryConfiguration() {
-        }
+        private DiscoveryConfiguration() {}
 
         public static String getResponseAsString() {
                 // Singleton class, don't need to create an object on every request
@@ -50,7 +46,6 @@ public class DiscoveryConfiguration {
                         Gson jsonResponse = new GsonBuilder().setPrettyPrinting().create();
                         String responseBody = jsonResponse.toJson(configInstance);
                         return responseBody;
-
                 }
         }
 }

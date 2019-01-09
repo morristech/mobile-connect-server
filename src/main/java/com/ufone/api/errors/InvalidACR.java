@@ -6,7 +6,8 @@ import com.ufone.api.errors.BaseErrorResponse;
 
 public class InvalidACR extends BaseErrorResponse {
         private final String error = "invalid_request";
-        private final String errorDescription = "MANDATORY parameter acr_values are missing or invalid values";
+        private final String errorDescription =
+            "MANDATORY parameter acr_values are missing or invalid values";
 
         @Override
         public String getErrorTitle() {

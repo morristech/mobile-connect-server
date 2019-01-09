@@ -53,13 +53,14 @@ public class BaseErrorResponse {
          * @return response URL which includes redirect_uri along with query params
          * error and error_description.
          */
-        public String buildBaseErrorResponse(String redirectURI) throws UnsupportedEncodingException {
+        public String buildBaseErrorResponse(String redirectURI)
+            throws UnsupportedEncodingException {
                 String errorTitle = this.getErrorTitle();
                 String errorDescription = this.getErrorDescription();
                 String encodedErrorTitle = URLEncoder.encode(errorTitle, "UTF-8");
                 String encodedErrorDescription = URLEncoder.encode(errorDescription, "UTF-8");
-                String baseErrorResponse = String.format("%s?error=%s&error_description=%s", redirectURI,
-                                encodedErrorTitle, encodedErrorDescription);
+                String baseErrorResponse = String.format("%s?error=%s&error_description=%s",
+                    redirectURI, encodedErrorTitle, encodedErrorDescription);
                 return baseErrorResponse;
         }
 
@@ -71,10 +72,26 @@ public class BaseErrorResponse {
          * @param responseURL the response URL created by buildBaseErrorResponse.
          */
         public String addStateQueryParam(String baseErrorResponse, String stateParam) {
-                stateParam = String.format("&%s=%s", "state", stateParam);
-                String responseURL = baseErrorResponse + stateParam;
-                return responseURL;
+                if (stateParam != null) {
+                        stateParam = String.format("&%s=%s", "state", stateParam);
+                        String responseURL = baseErrorResponse + stateParam;
+                        return responseURL;
+                } else {
+                        return baseErrorResponse;
+                }
         }
+
+        // public String addCorrelationIDQueryParam(
+        //     String baseErrorResponse, String correlationIDParam) {
+        //         if (correlationIDParam != null) {
+        //                 correlationIDParam =
+        //                     String.format("&%s=%s", "correlation_id", correlationIDParam);
+        //                 String responseURL = baseErrorResponse + correlationIDParam;
+        //                 return responseURL;
+        //         } else {
+        //                 return baseErrorResponse;
+        //         }
+        // }
 
         /*
          * All errors are supposed to return a 302 EXCEPT "invalid redirect_uri" error,

@@ -6,7 +6,8 @@ import com.ufone.api.errors.BaseErrorResponse;
 
 public class DuplicateParameter extends BaseErrorResponse {
         private final String error = "invalid_request";
-        private final String errorDescription = "Multiple parameter names in the authorization request. Malformed request";
+        private final String errorDescription =
+            "Multiple parameter names in the authorization request. Malformed request";
 
         @Override
         public String getErrorTitle() {
