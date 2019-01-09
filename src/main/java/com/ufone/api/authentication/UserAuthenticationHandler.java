@@ -16,6 +16,6 @@ public class UserAuthenticationHandler {
         private final String waitScreenURI = "https://localhost:8080/mobile_connect/wait";
 
         public Response redirectToWaitScreen() {
-                return Response.status(Response.Status.MOVED_PERMANENTLY).header("Location", waitScreenURI).build();
+                return Response.status(200).entity("This is the wait screen").build();
         }
 }
