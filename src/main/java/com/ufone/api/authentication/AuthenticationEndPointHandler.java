@@ -3,13 +3,23 @@ package com.ufone.api.authentication;
 
 import com.google.gson.Gson;
 import com.ufone.api.authentication.AuthenticationMethods;
-import com.ufone.api.authentication.UserAuthenticationHandler;
 import com.ufone.api.errors.MissingClientID;
 import com.ufone.api.errors.MissingScope;
+import com.ufone.api.errors.InvalidRedirectURI;
+import com.ufone.api.errors.InvalidResponseType;
+import com.ufone.api.errors.InvalidVersion;
+import com.ufone.api.errors.InvalidState;
+import com.ufone.api.errors.MissingNonce;
+import com.ufone.api.errors.ServerError;
 import com.ufone.api.request.Request;
 import com.ufone.api.validation.RequestValidation;
 import com.ufone.api.exceptions.MissingClientIDException;
 import com.ufone.api.exceptions.MissingScopeException;
+import com.ufone.api.exceptions.InvalidRedirectURIException;
+import com.ufone.api.exceptions.InvalidResponseTypeException;
+import com.ufone.api.exceptions.InvalidVersionException;
+import com.ufone.api.exceptions.InvalidStateException;
+import com.ufone.api.exceptions.MissingNonceException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -44,10 +54,7 @@ public class AuthenticationEndPointHandler {
             @QueryParam("acr_values") String acrValues,
             @QueryParam("response_mode") String responseMode,
             @QueryParam("correlation_id") String correlationID, @QueryParam("dtbs") String dtbs)
-            throws UnsupportedEncodingException, MissingClientIDException {
-                // These are error response variables
-                final String baseResponse;
-                final String baseResponseWithState;
+            throws UnsupportedEncodingException {
                 // Create a request object
                 Request request =
                     new Request(clientID, redirectURI, responseType, scope, version, state, nonce)
@@ -66,15 +73,24 @@ public class AuthenticationEndPointHandler {
                 // Call Request Validator to validate request and throw appropriate exception if
 
                 try {
-                        RequestValidation requestValidation = new RequestValidation();
-                        requestValidation.mandatoryParametersNull(request);
-                        return Response.status(200).entity("Normal").build();
+                        new RequestValidation().validateRequest(request);
+                        return Response.status(200).entity("Initiate Authn").build();
+                } catch (InvalidRedirectURIException invalidRedirectURI) {
+                        return new InvalidRedirectURI().buildAndReturnResponse(request);
                 } catch (MissingClientIDException missingClientID) {
-                        MissingClientID errorResponse = new MissingClientID();
-                        return errorResponse.buildAndReturnResponse(request);
+                        return new MissingClientID().buildAndReturnResponse(request);
+                } catch (InvalidResponseTypeException invalidResponseType) {
+                        return new InvalidResponseType().buildAndReturnResponse(request);
                 } catch (MissingScopeException missingScope) {
-                        MissingScope errorResponse = new MissingScope();
-                        return errorResponse.buildAndReturnResponse(request);
+                        return new MissingScope().buildAndReturnResponse(request);
+                } catch (InvalidVersionException invalidVersion) {
+                        return new InvalidVersion().buildAndReturnResponse(request);
+                } catch (InvalidStateException invalidState) {
+                        return new InvalidState().buildAndReturnResponse(request);
+                } catch (MissingNonceException missingNonce) {
+                        return new MissingNonce().buildAndReturnResponse(request);
+                } catch (Exception serverError) {
+                        return new ServerError().buildAndReturnResponse(request);
                 }
         }
 }
