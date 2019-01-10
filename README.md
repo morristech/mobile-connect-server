@@ -29,6 +29,14 @@ The Authorization endpoint:
 
 You can test the endpoint with GET to this path:
 
-`http://localhost/oidc/authorize?acr_values=5`
+`http://localhost/oidc/authorize?client_id=totally_not_shady&scope=i_wantz_hack&redirect_uri=http://wut.is.dis/boogabooga&response_type=code`
 
-which should return 5 in the body. (This is the current response as I've not implemented the correct response yet).
+which should return "Normal" in the body. (This is the current response as I've not implemented the correct response yet).
+
+`http://localhost/oidc/authorize?client_id=totally_not_shady&redirect_uri=http://wut.is.dis/boogabooga&response_type=code`
+
+which will return "scope missing" Location
+
+`http://localhost/oidc/authorize?scope=i_wantz_hack&redirect_uri=http://wut.is.dis/boogabooga&response_type=code`
+
+which will return "client_id missing" Location
