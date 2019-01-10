@@ -5,12 +5,12 @@
         <modelVersion>4.0.0</modelVersion>
 
         <groupId>com.ufone.api</groupId>
-        <artifactId>oidc-server</artifactId>
+        <artifactId>mobile-connect-server</artifactId>
         <version>1.0-SNAPSHOT</version>
         <packaging>war</packaging>
 
-        <name>oidc-server Maven Webapp</name>
-        <url>http://api.ufone.com</url>
+        <name>Ufone Mobile Connect Server</name>
+        <url>https://www.ufone.com</url>
 
         <properties>
                 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -48,7 +48,7 @@
         </dependencies>
 
         <build>
-                <finalName>oidc-server</finalName>
+                <finalName>mobile-connect-server</finalName>
                 <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
                         <plugins>
                                 <plugin>
