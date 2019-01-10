@@ -4,13 +4,22 @@ import com.ufone.api.request.Request;
 
 import com.ufone.api.exceptions.MissingClientIDException;
 import com.ufone.api.exceptions.MissingScopeException;
+import com.ufone.api.exceptions.InvalidRedirectURIException;
+import com.ufone.api.exceptions.InvalidResponseTypeException;
+import com.ufone.api.exceptions.InvalidVersionException;
+import com.ufone.api.exceptions.InvalidStateException;
+import com.ufone.api.exceptions.MissingNonceException;
 
 public interface IRequestValidation {
         public boolean validateRequest(Request request)
-            throws MissingClientIDException, MissingScopeException;
+            throws MissingClientIDException, MissingScopeException, InvalidRedirectURIException,
+                   InvalidResponseTypeException, InvalidVersionException, InvalidStateException,
+                   MissingNonceException;
 
         public boolean mandatoryParametersNull(Request request)
-            throws MissingClientIDException, MissingScopeException;
+            throws MissingClientIDException, MissingScopeException, InvalidRedirectURIException,
+                   InvalidResponseTypeException, InvalidVersionException, InvalidStateException,
+                   MissingNonceException;
 
         public boolean areMandatoryParametersValid(Request request);
 
