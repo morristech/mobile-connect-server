@@ -29,14 +29,8 @@ The Authorization endpoint:
 
 You can test the endpoint with GET to this path:
 
-`http://localhost/oidc/authorize?client_id=totally_not_shady&scope=i_wantz_hack&redirect_uri=http://wut.is.dis/boogabooga&response_type=code`
+http://localhost/oidc/authorize?client_id=totally_not_shady&scope=i_wantz_hack&redirect_uri=http://wut.is.dis/boogabooga&response_type=code&version=1.1&state=81415&nonce=1231
 
-which should return "Normal" in the body. (This is the current response as I've not implemented the correct response yet).
+which should return "Initiate Authn" in the body. (This is the current response as I've not implemented demo authentication).
 
 `http://localhost/oidc/authorize?client_id=totally_not_shady&redirect_uri=http://wut.is.dis/boogabooga&response_type=code`
-
-which will return "scope missing" Location
-
-`http://localhost/oidc/authorize?scope=i_wantz_hack&redirect_uri=http://wut.is.dis/boogabooga&response_type=code`
-
-which will return "client_id missing" Location
