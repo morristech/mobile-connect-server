@@ -179,7 +179,20 @@ public class Request {
         }
 
         public Request build() {
-                return new Request(
-                    clientID, redirectURI, responseType, scope, version, state, nonce);
+                Request request =
+                    new Request(clientID, redirectURI, responseType, scope, version, state, nonce);
+                request.display = this.display;
+                request.prompt = this.prompt;
+                request.maxAge = this.maxAge;
+                request.uiLocales = this.uiLocales;
+                request.claimsLocales = this.claimsLocales;
+                request.idTokenHint = this.idTokenHint;
+                request.loginHint = this.loginHint;
+                request.loginHintToken = this.loginHintToken;
+                request.acrValues = this.acrValues;
+                request.responseMode = this.responseMode;
+                request.correlationID = this.correlationID;
+                request.dtbs = this.dtbs;
+                return request;
         }
 }
