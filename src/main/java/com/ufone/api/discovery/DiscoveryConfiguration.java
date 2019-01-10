@@ -11,7 +11,8 @@ public class DiscoveryConfiguration {
         // NOTE: Not reading from file or something as that's gonna slow down
         // performance plus these fields won't be changed often so hardcoding them here
         // shouldn't be a problem and they will be compiled to bytecode so they can't be
-        // changed by someone which might have malicious intent.
+        // changed by someone which might have malicious intent. This will be changed if a better
+        // solution is brought up.
         @SerializedName("issuer") private static final String issuer = "https://api.ufone.com";
         @SerializedName("authorization_endpoint")
         private static final String authorizationEndpoint = "https://api.ufone.com/oidc/authorize";
@@ -34,6 +35,9 @@ public class DiscoveryConfiguration {
         @SerializedName("acr_values_supported")
         private static final String[] acrValuesSupported = {"2"};
 
+        /*
+         * Returns the static fields initialized above.
+         */
         public static String getResponseAsString() {
                 Gson jsonResponse = new GsonBuilder()
                                         .excludeFieldsWithModifiers(Modifier.TRANSIENT)

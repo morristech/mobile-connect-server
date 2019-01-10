@@ -1,7 +1,6 @@
 package com.ufone.api.validation;
 
 import com.ufone.api.request.Request;
-
 import com.ufone.api.exceptions.MissingClientIDException;
 import com.ufone.api.exceptions.MissingScopeException;
 import com.ufone.api.exceptions.InvalidRedirectURIException;

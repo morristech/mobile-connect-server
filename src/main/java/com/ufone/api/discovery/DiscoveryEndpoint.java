@@ -1,17 +1,25 @@
 // Copyright 2019 Shehriyar Qureshi
 package com.ufone.api.discovery;
 
+import com.ufone.api.discovery.DiscoveryConfiguration;
+
+import com.google.gson.Gson;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
-import com.ufone.api.discovery.DiscoveryConfiguration;
 
-import com.google.gson.Gson;
-
+/*
+ * This is the openid-configuration endpoint. It returns an application/json response containing
+ * Operator endpoints and supported configurations.
+ */
 @Path("/.well-known")
 public class DiscoveryEndpoint {
+        /*
+         * Returns application/json containing Operator configurations.
+         */
         @GET
         @Path("openid-configuration")
         @Produces(MediaType.APPLICATION_JSON)

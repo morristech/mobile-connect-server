@@ -1,8 +1,8 @@
 package com.ufone.api.errors;
 
-import javax.ws.rs.core.Response;
-
 import com.ufone.api.errors.BaseErrorResponse;
+
+import javax.ws.rs.core.Response;
 
 public class DuplicateLoginHint extends BaseErrorResponse {
         private final String error = "invalid_request";

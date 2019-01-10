@@ -2,8 +2,10 @@ package com.ufone.api.errors;
 
 import com.ufone.api.errors.BaseErrorResponse;
 import com.ufone.api.request.Request;
-import java.io.UnsupportedEncodingException;
+
 import javax.ws.rs.core.Response;
+
+import java.io.UnsupportedEncodingException;
 
 public class MissingScope extends BaseErrorResponse {
         private final String error = "invalid_scope";

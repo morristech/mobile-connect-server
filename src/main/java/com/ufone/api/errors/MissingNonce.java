@@ -1,11 +1,11 @@
 package com.ufone.api.errors;
 
+import com.ufone.api.errors.BaseErrorResponse;
+import com.ufone.api.request.Request;
+
 import javax.ws.rs.core.Response;
 
-import com.ufone.api.errors.BaseErrorResponse;
 import java.io.UnsupportedEncodingException;
-
-import com.ufone.api.request.Request;
 
 public class MissingNonce extends BaseErrorResponse {
         private final String error = "invalid_request";

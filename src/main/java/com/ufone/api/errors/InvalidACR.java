@@ -1,10 +1,10 @@
 package com.ufone.api.errors;
 
+import com.ufone.api.errors.BaseErrorResponse;
+import com.ufone.api.request.Request;
+
 import javax.ws.rs.core.Response;
 
-import com.ufone.api.errors.BaseErrorResponse;
-
-import com.ufone.api.request.Request;
 import java.io.UnsupportedEncodingException;
 
 public class InvalidACR extends BaseErrorResponse {

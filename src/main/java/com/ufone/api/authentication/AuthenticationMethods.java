@@ -3,8 +3,8 @@ package com.ufone.api.authentication;
 
 public class AuthenticationMethods implements IAuthenticationMethods {
         /*
-         * The methods return true if authenticated, response should include what method
-         * was used. The said response should be implemented in the calling function
+         * This is just a demo implementation. You should build your own implementation by
+         * implementing the IAuthenticationMethods interface.
          */
         public boolean USSDAuthentication() {
                 return true;

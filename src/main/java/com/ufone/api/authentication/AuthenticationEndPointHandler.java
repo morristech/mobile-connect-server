@@ -1,7 +1,6 @@
 // Copyright 2019 Shehriyar Qureshi
 package com.ufone.api.authentication;
 
-import com.google.gson.Gson;
 import com.ufone.api.authentication.AuthenticationMethods;
 import com.ufone.api.errors.MissingClientID;
 import com.ufone.api.errors.MissingScope;
@@ -20,6 +19,9 @@ import com.ufone.api.exceptions.InvalidResponseTypeException;
 import com.ufone.api.exceptions.InvalidVersionException;
 import com.ufone.api.exceptions.InvalidStateException;
 import com.ufone.api.exceptions.MissingNonceException;
+
+import com.google.gson.Gson;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -29,6 +31,7 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 import java.net.URLEncoder;
+
 import java.io.UnsupportedEncodingException;
 
 /*
@@ -70,8 +73,8 @@ public class AuthenticationEndPointHandler {
                         .correlationID(correlationID)
                         .dtbs(dtbs)
                         .build();
-                // Call Request Validator to validate request and throw appropriate exception if
 
+                // Call Request Validator to validate request and throw appropriate exception if any
                 try {
                         new RequestValidation().validateRequest(request);
                         return Response.status(200).entity("Initiate Authn").build();

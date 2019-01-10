@@ -1,9 +1,11 @@
 package com.ufone.api.errors;
 
-import javax.ws.rs.core.Response;
 import com.ufone.api.errors.BaseErrorResponse;
-import java.io.UnsupportedEncodingException;
 import com.ufone.api.request.Request;
+
+import javax.ws.rs.core.Response;
+
+import java.io.UnsupportedEncodingException;
 
 public class ServerError extends BaseErrorResponse {
         private final String error = "server_error";
