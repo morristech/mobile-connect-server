@@ -27,6 +27,8 @@ public class MissingClientID extends BaseErrorResponse {
                 MissingClientID errorResponse = new MissingClientID();
                 baseResponse = errorResponse.buildBaseErrorResponse(request.getRedirectURI());
                 baseResponse = errorResponse.addStateQueryParam(baseResponse, request.getState());
+                baseResponse = errorResponse.addCorrelationIDQueryParam(
+                    baseResponse, request.getCorrelationID());
                 return errorResponse.returnResponse(baseResponse);
         }
 }

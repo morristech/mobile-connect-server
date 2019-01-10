@@ -27,6 +27,8 @@ public class InvalidVersion extends BaseErrorResponse {
                 InvalidVersion errorResponse = new InvalidVersion();
                 baseResponse = errorResponse.buildBaseErrorResponse(request.getVersion());
                 baseResponse = errorResponse.addStateQueryParam(baseResponse, request.getState());
+                baseResponse = errorResponse.addCorrelationIDQueryParam(
+                    baseResponse, request.getCorrelationID());
                 return errorResponse.returnResponse(baseResponse);
         }
 }

@@ -26,6 +26,8 @@ public class InvalidState extends BaseErrorResponse {
                 InvalidState errorResponse = new InvalidState();
                 baseResponse = errorResponse.buildBaseErrorResponse(request.getState());
                 baseResponse = errorResponse.addStateQueryParam(baseResponse, request.getState());
+                baseResponse = errorResponse.addCorrelationIDQueryParam(
+                    baseResponse, request.getCorrelationID());
                 return errorResponse.returnResponse(baseResponse);
         }
 }

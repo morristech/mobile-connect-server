@@ -27,6 +27,8 @@ public class MissingNonce extends BaseErrorResponse {
                 MissingNonce errorResponse = new MissingNonce();
                 baseResponse = errorResponse.buildBaseErrorResponse(request.getNonce());
                 baseResponse = errorResponse.addStateQueryParam(baseResponse, request.getState());
+                baseResponse = errorResponse.addCorrelationIDQueryParam(
+                    baseResponse, request.getCorrelationID());
                 return errorResponse.returnResponse(baseResponse);
         }
 }

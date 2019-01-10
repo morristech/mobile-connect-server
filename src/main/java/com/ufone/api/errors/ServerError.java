@@ -27,6 +27,8 @@ public class ServerError extends BaseErrorResponse {
                 ServerError errorResponse = new ServerError();
                 baseResponse = errorResponse.buildBaseErrorResponse(request.getRedirectURI());
                 baseResponse = errorResponse.addStateQueryParam(baseResponse, request.getState());
+                baseResponse = errorResponse.addCorrelationIDQueryParam(
+                    baseResponse, request.getCorrelationID());
                 return errorResponse.returnResponse(baseResponse);
         }
 }

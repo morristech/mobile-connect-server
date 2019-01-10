@@ -83,18 +83,17 @@ public class BaseErrorResponse {
                 }
         }
 
-        // TODO: This will be implemented.
-        // public String addCorrelationIDQueryParam(
-        // String baseErrorResponse, String correlationIDParam) {
-        // if (correlationIDParam != null) {
-        // correlationIDParam =
-        // String.format("&%s=%s", "correlation_id", correlationIDParam);
-        // String responseURL = baseErrorResponse + correlationIDParam;
-        // return responseURL;
-        // } else {
-        // return baseErrorResponse;
-        // }
-        // }
+        public String addCorrelationIDQueryParam(
+            String baseErrorResponse, String correlationIDParam) {
+                if (correlationIDParam != null) {
+                        correlationIDParam =
+                            String.format("&%s=%s", "correlation_id", correlationIDParam);
+                        String responseURL = baseErrorResponse + correlationIDParam;
+                        return responseURL;
+                } else {
+                        return baseErrorResponse;
+                }
+        }
 
         /*
          * All errors are supposed to return a 302 EXCEPT "invalid redirect_uri" error,

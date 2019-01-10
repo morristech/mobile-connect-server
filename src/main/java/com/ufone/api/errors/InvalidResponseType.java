@@ -28,6 +28,8 @@ public class InvalidResponseType extends BaseErrorResponse {
                 InvalidResponseType errorResponse = new InvalidResponseType();
                 baseResponse = errorResponse.buildBaseErrorResponse(request.getResponseType());
                 baseResponse = errorResponse.addStateQueryParam(baseResponse, request.getState());
+                baseResponse = errorResponse.addCorrelationIDQueryParam(
+                    baseResponse, request.getCorrelationID());
                 return errorResponse.returnResponse(baseResponse);
         }
 }
