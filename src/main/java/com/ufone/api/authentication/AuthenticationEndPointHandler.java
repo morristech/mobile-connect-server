@@ -77,7 +77,7 @@ public class AuthenticationEndPointHandler {
                 // Call Request Validator to validate request and throw appropriate exception if any
                 try {
                         new RequestValidation().validateRequest(request);
-                        return Response.status(200).entity("Initiate Authn").build();
+                        return Response.status(302).entity("Initiate Authn").build();
                 } catch (InvalidRedirectURIException invalidRedirectURI) {
                         return new InvalidRedirectURI().buildAndReturnResponse(request);
                 } catch (MissingClientIDException missingClientID) {
