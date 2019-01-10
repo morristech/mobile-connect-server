@@ -4,10 +4,14 @@ import javax.ws.rs.core.Response;
 
 import com.ufone.api.errors.BaseErrorResponse;
 
+import com.ufone.api.request.Request;
+import java.io.UnsupportedEncodingException;
+
 public class InvalidACR extends BaseErrorResponse {
         private final String error = "invalid_request";
         private final String errorDescription =
             "MANDATORY parameter acr_values are missing or invalid values";
+        private String baseResponse;
 
         @Override
         public String getErrorTitle() {
@@ -17,5 +21,13 @@ public class InvalidACR extends BaseErrorResponse {
         @Override
         public String getErrorDescription() {
                 return this.errorDescription;
+        }
+
+        public Response buildAndReturnResponse(Request request)
+            throws UnsupportedEncodingException {
+                MissingScope errorResponse = new MissingScope();
+                baseResponse = errorResponse.buildBaseErrorResponse(request.getRedirectURI());
+                baseResponse = errorResponse.addStateQueryParam(baseResponse, request.getState());
+                return errorResponse.returnResponse(baseResponse);
         }
 }
