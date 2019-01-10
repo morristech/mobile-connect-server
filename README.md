@@ -29,8 +29,6 @@ The Authorization endpoint:
 
 You can test the endpoint with GET to this path:
 
-http://localhost/oidc/authorize?client_id=totally_not_shady&scope=i_wantz_hack&redirect_uri=http://wut.is.dis/boogabooga&response_type=code&version=1.1&state=81415&nonce=1231
+`http://localhost/oidc/authorize?client_id=totally_not_shady&scope=i_wantz_hack&redirect_uri=http://wut.is.dis/boogabooga&response_type=code&version=1.1&state=123&nonce=456&correlation_id=789`
 
 which should return "Initiate Authn" in the body. (This is the current response as I've not implemented demo authentication).
-
-`http://localhost/oidc/authorize?client_id=totally_not_shady&redirect_uri=http://wut.is.dis/boogabooga&response_type=code`
